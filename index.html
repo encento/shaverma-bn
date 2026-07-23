@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#51647e">
+  <meta name="description" content="Предзаказ еды в Шаверма БН без звонка и регистрации">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Шаверма БН — предзаказ</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-blob" aria-hidden="true"></div>
+
+      <nav class="topbar" aria-label="Навигация">
+        <a class="logo" href="#" aria-label="Шаверма БН — на главную">
+          <span class="logo-small">ШАВЕРМА</span>
+          <strong>БН</strong>
+        </a>
+
+        <button class="last-order-button" id="lastOrderButton" type="button">
+          <span class="last-order-icon">№</span>
+          <span class="last-order-label">Мой заказ</span>
+        </button>
+      </nav>
+
+      <div class="hero-copy">
+        <p class="script-label">The menu</p>
+        <h1>Закажи<br>без звонка</h1>
+        <p class="hero-text">Выбери еду, укажи время и назови номер заказа на точке.</p>
+      </div>
+
+      <div class="hero-bottom">
+        <div class="open-badge">
+          <span class="open-dot"></span>
+          Принимаем предзаказы
+        </div>
+        <p>Оплата при получении</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="categories-wrap" aria-label="Категории меню">
+        <div class="categories" id="categories"></div>
+      </section>
+
+      <section class="menu-section">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Актуальное меню</p>
+            <h2 id="sectionTitle">Всё меню</h2>
+          </div>
+          <span class="product-count" id="productCount"></span>
+        </div>
+
+        <div class="product-grid" id="productGrid"></div>
+      </section>
+
+      <section class="how-it-works">
+        <p class="section-kicker">Всё просто</p>
+        <h2>Три шага — и готово</h2>
+        <div class="steps">
+          <article>
+            <span>01</span>
+            <strong>Выбери</strong>
+            <p>Добавь позиции и допы в корзину.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Укажи время</strong>
+            <p>Мы покажем доступные слоты.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>Назови номер</strong>
+            <p>Без имени, телефона и регистрации.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <button class="cart-bar hidden" id="cartBar" type="button">
+      <span class="cart-bar-copy">
+        <strong id="cartBarCount">Корзина</strong>
+        <small>Посмотреть заказ</small>
+      </span>
+      <strong id="cartBarTotal">0 ₽</strong>
+    </button>
+  </div>
+
+  <dialog class="bottom-sheet" id="productDialog">
+    <form class="sheet-card" id="productForm">
+      <button class="close-button" id="closeProductDialog" type="button" aria-label="Закрыть">×</button>
+
+      <div class="product-dialog-visual" id="dialogVisual">
+        <span id="dialogEmoji">🌯</span>
+      </div>
+
+      <p class="section-kicker" id="dialogCategory"></p>
+      <h2 id="dialogTitle"></h2>
+      <p class="dialog-description" id="dialogDescription"></p>
+
+      <div class="addons-block hidden" id="addonsBlock">
+        <div class="addons-heading">
+          <strong>Добавить внутрь</strong>
+          <span>Необязательно</span>
+        </div>
+        <div class="addons-list" id="addonsList"></div>
+      </div>
+
+      <div class="dialog-total-row">
+        <span>Стоимость</span>
+        <strong id="dialogPrice">0 ₽</strong>
+      </div>
+
+      <button class="primary-button" type="submit" id="addToCartButton">
+        Добавить в корзину
+      </button>
+    </form>
+  </dialog>
+
+  <dialog class="bottom-sheet" id="cartDialog">
+    <div class="sheet-card cart-sheet">
+      <button class="close-button" id="closeCartDialog" type="button" aria-label="Закрыть">×</button>
+
+      <p class="section-kicker">Предзаказ</p>
+      <h2>Ваша корзина</h2>
+
+      <div class="cart-list" id="cartList"></div>
+
+      <section class="pickup-section" id="pickupSection">
+        <div class="pickup-heading">
+          <strong>Когда приготовить?</strong>
+          <span>Сегодня</span>
+        </div>
+        <div class="time-grid" id="timeGrid"></div>
+      </section>
+
+      <div class="cart-summary">
+        <span>Итого</span>
+        <strong id="cartTotal">0 ₽</strong>
+      </div>
+
+      <button class="primary-button" id="placeOrderButton" type="button">
+        Оформить заказ
+      </button>
+
+      <p class="privacy-note">
+        Оплата при получении. Имя, телефон и регистрация не нужны.
+      </p>
+    </div>
+  </dialog>
+
+  <dialog class="order-dialog" id="orderDialog">
+    <div class="order-card">
+      <button class="close-button order-close-x" id="closeOrderX" type="button" aria-label="Закрыть">×</button>
+      <div class="success-mark">✓</div>
+      <p class="section-kicker centered">Заказ принят</p>
+      <h2>Ваш номер</h2>
+      <div class="order-number" id="orderNumber">137</div>
+      <p class="order-time" id="orderTime">Приготовим к 18:30</p>
+      <div class="order-status">
+        <span class="open-dot"></span>
+        <span id="orderStatusText">Заказ принят</span>
+      </div>
+      <p class="order-hint">
+        Назовите этот номер на точке. Заказ сохранён в этом браузере.
+      </p>
+      <button class="primary-button" id="closeOrderButton" type="button">
+        Вернуться в меню
+      </button>
+    </div>
+  </dialog>
+
+  <template id="productTemplate">
+    <article class="product-card">
+      <button class="product-card-button" type="button">
+        <div class="product-visual">
+          <span class="product-category-mark"></span>
+          <span class="product-emoji"></span>
+          <span class="availability-badge"></span>
+        </div>
+        <div class="product-card-body">
+          <div>
+            <p class="product-category"></p>
+            <h3 class="product-title"></h3>
+            <p class="product-description"></p>
+          </div>
+          <div class="product-card-footer">
+            <strong class="product-price"></strong>
+            <span class="round-add">+</span>
+          </div>
+        </div>
+      </button>
+    </article>
+  </template>
+
+  <script src="./app.js"></script>
+</body>
+</html>
